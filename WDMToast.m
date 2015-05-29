@@ -7,7 +7,9 @@
 //
 
 #import "WDMToast.h"
+#import "UIView+Common.h"
 
+#define IPHONESCREEN ([UIScreen mainScreen])
 @implementation WDMToast
 
 -(id)init{
@@ -31,7 +33,7 @@
     UIView *toastView = [[UIView alloc]initWithFrame:frame];
     toastView.tag = 123321;
     toastView.backgroundColor = [UIColor blackColor];
-    toastView.alpha = 0.8f;
+    toastView.alpha = 0.75f;
     toastView.layer.cornerRadius = 5.0f;
     toastView.layer.borderWidth = 0.2f;
     toastView.layer.borderColor = (__bridge CGColorRef)([UIColor darkGrayColor]);
@@ -69,22 +71,23 @@
     
     switch (position) {
         case ToastAtTop: {
-            origin.x = (controller.view.bounds.size.width - DefauleWidth)/2;
+            origin.x = (controller.view.width - DefauleWidth)/2;
             origin.y = 0;
             break;
         }
         case ToastAtBotton: {
-            origin.x = (controller.view.bounds.size.width - DefauleWidth)/2;
-            origin.y = controller.view.bounds.size.height-Defauleheight;
+            origin.x = (controller.view.width - DefauleWidth)/2;
+            origin.y = controller.view.height-Defauleheight;
             break;
         }
         case ToastAtCenter: {
-            origin.x = (controller.view.bounds.size.width - DefauleWidth)/2;
-            origin.y = (controller.view.bounds.size.height - Defauleheight - 64)/2; //64 = nav+state
+            origin.x = (controller.view.width - DefauleWidth)/2;
+            origin.y = (controller.view.height - Defauleheight)/2;
+            origin.y -= controller.navigationController.navigationBar?64:20; //判断是否有导航栏
             break;
         }
     }
-    
+
     frame.size = DEFAULTSIZE;
     frame.origin = origin;
     
